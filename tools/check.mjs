@@ -17,14 +17,25 @@ for (const [file, expected] of chapters) {
   if (JSON.stringify(numbers) !== JSON.stringify(wanted)) {
     throw new Error(`${file}: section sequence is ${numbers.join(',')}`);
   }
+  const sections = source.split(/(?=^## 슬라이드 \d{2} · )/m).slice(1);
+  sections.forEach((section, index) => {
+    if (!/<details><summary>[^<]+<\/summary><p>[^<]+<\/p><\/details>/.test(section)) {
+      throw new Error(`${file}: missing question and example for slide ${index + 1}`);
+    }
+  });
   for (const page of wanted) {
     const target = path.join(root, 'docs', 'assets', 'slides', id, `${String(page).padStart(2, '0')}.webp`);
     if (!fs.existsSync(target) || fs.statSync(target).size < 1000) {
       throw new Error(`Missing or empty slide image: ${target}`);
     }
   }
-  if (!fs.existsSync(path.join(root, 'docs', 'lecture', `${id}.html`))) {
+  const lecturePage = path.join(root, 'docs', 'lecture', `${id}.html`);
+  if (!fs.existsSync(lecturePage)) {
     throw new Error(`Missing lecture page: ${id}`);
+  }
+  const rendered = fs.readFileSync(lecturePage, 'utf8');
+  if ([...rendered.matchAll(/<details>/g)].length !== expected) {
+    throw new Error(`Lecture ${id}: expected ${expected} question boxes`);
   }
   total += expected;
 }
@@ -43,4 +54,4 @@ if (!fs.existsSync(guidePdf) || fs.statSync(guidePdf).size < 50000 ||
 const forbidden = walk(publicRoot).filter(p => p !== guidePdf && /\.(pdf|txt|tex|jpg|jpeg|png)$/i.test(p));
 if (forbidden.length) throw new Error(`Unexpected source-like files in docs/: ${forbidden.join(', ')}`);
 if (!fs.existsSync(path.join(root, 'guide', 'main.tex'))) throw new Error('Missing guide/main.tex');
-console.log(`Verified ${chapters.length} lectures, ${total} slide sections and images; no source files in docs/.`);
+console.log(`Verified ${chapters.length} lectures, ${total} slide sections, images and question boxes; no source files in docs/.`);

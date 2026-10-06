@@ -7,7 +7,7 @@ const docs = path.join(root, 'docs');
 const lectures = [
   {id:'01', file:'01-foundations.md', title:'값싼 예측과 AI의 경제학', short:'의사결정·보완재·자산가격', count:33, color:'blue'},
   {id:'02', file:'02-language-models.md', title:'금융 텍스트와 언어모형', short:'사전부터 LLM까지·환각과 검증', count:30, color:'teal'},
-  {id:'03', file:'03-regularization.md', title:'정규화 회귀와 수익률 예측', short:'표본외 검증·능형회귀·라쏘', count:62, color:'amber'},
+  {id:'03', file:'03-regularization.md', title:'정규화 회귀와 수익률 예측', short:'OOS 검증·Ridge·Lasso', count:62, color:'amber'},
   {id:'04', file:'04-cross-section.md', title:'종목 간 기대수익률과 요인 논쟁', short:'이상현상·위험과 가격오류·재현', count:65, color:'blue'},
 ];
 const esc = s => s.replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;');
@@ -96,7 +96,7 @@ function markdownToTex(markdown) {
     if (line.startsWith('<details>')) {
       const m=line.match(/^<details><summary>(.*?)<\/summary><p>(.*?)<\/p><\/details>$/);
       if (!m) throw new Error(`Unsupported details format: ${line.slice(0,80)}`);
-      output.push(`\\par\\medskip\\noindent\\textbf{심화: ${inlineTex(m[1])}}\\quad ${inlineTex(m[2])}\\par`);
+      output.push(`\\par\\medskip\\noindent\\textbf{질문: ${inlineTex(m[1])}}\\quad ${inlineTex(m[2])}\\par`);
       continue;
     }
     if (line.startsWith('|')) {
@@ -148,7 +148,7 @@ function writeTex() {
 \begin{titlepage}
 \centering
 \vspace*{3cm}
-{\Large AI금융경제\par}
+{\Large AI 금융경제\par}
 \vspace{1.2cm}
 {\Huge\bfseries 슬라이드별 학습 가이드\par}
 \vspace{1.2cm}
@@ -176,12 +176,12 @@ const diagramMap = {'01-07':'decision-value.svg','03-24':'bias-variance.svg','04
 const navCards = current => chapters.map(c => `<a class="chapter-link ${current===c.id?'is-current':''}" href="${current?'../':''}lecture/${c.id}.html"><span class="chapter-num">${c.id}</span><span><strong>${esc(c.title)}</strong><small>${esc(c.short)}</small></span><span class="chapter-count">${c.count}</span></a>`).join('');
 const mathjax = `<script>window.MathJax={tex:{inlineMath:[['\\\\(','\\\\)']],displayMath:[['\\\\[','\\\\]']]},options:{skipHtmlTags:['script','noscript','style','textarea','pre','code']}};</script><script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>`;
 function shell(title, body, {prefix='', current=''}={}) {
-  return `<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="AI금융경제 — 슬라이드별 한국어 학습 가이드"><title>${esc(title)} · AI금융경제</title><link rel="stylesheet" href="${prefix}assets/site.css">${mathjax}</head><body data-prefix="${prefix}"><div class="reading-progress" aria-hidden="true"></div><header class="site-header"><a class="brand" href="${prefix}index.html"><span class="brand-mark">ƒ</span><span>AI금융경제</span></a><span class="header-divider"></span><span class="header-subtitle">슬라이드별 학습 가이드</span><a class="pdf-link" href="${prefix}study-guide.pdf" download>PDF 가이드 ↓</a><button type="button" class="search-trigger" data-search-trigger aria-label="전체 검색 열기"><span>⌕</span> 검색 <kbd>/</kbd></button></header>${body}<dialog id="slide-dialog" class="slide-dialog"><button type="button" class="dialog-close" data-dialog-close aria-label="이미지 닫기">×</button><img alt="확대한 슬라이드"><p></p></dialog><dialog id="search-dialog" class="search-dialog"><div class="search-panel"><div class="search-input-row"><span>⌕</span><input type="search" id="search-input" placeholder="개념, 사례, 수식 검색" aria-label="전체 내용 검색"><button type="button" data-search-close aria-label="검색 닫기">×</button></div><div id="search-results" class="search-results"></div><p class="search-hint">슬라이드 제목과 설명을 함께 검색합니다. Esc로 닫기</p></div></dialog><script src="${prefix}assets/search-index.js"></script><script src="${prefix}assets/site.js"></script></body></html>`;
+  return `<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="AI 금융경제 — 슬라이드별 한국어 학습 가이드"><title>${esc(title)} · AI 금융경제</title><link rel="stylesheet" href="${prefix}assets/site.css">${mathjax}</head><body data-prefix="${prefix}"><div class="reading-progress" aria-hidden="true"></div><header class="site-header"><a class="brand" href="${prefix}index.html"><span class="brand-mark">ƒ</span><span>AI 금융경제</span></a><span class="header-divider"></span><span class="header-subtitle">슬라이드별 학습 가이드</span><a class="pdf-link" href="${prefix}study-guide.pdf" download>PDF 가이드 ↓</a><button type="button" class="search-trigger" data-search-trigger aria-label="전체 검색 열기"><span>⌕</span> 검색 <kbd>/</kbd></button></header>${body}<dialog id="slide-dialog" class="slide-dialog"><button type="button" class="dialog-close" data-dialog-close aria-label="이미지 닫기">×</button><img alt="확대한 슬라이드"><p></p></dialog><dialog id="search-dialog" class="search-dialog"><div class="search-panel"><div class="search-input-row"><span>⌕</span><input type="search" id="search-input" placeholder="개념, 사례, 수식 검색" aria-label="전체 내용 검색"><button type="button" data-search-close aria-label="검색 닫기">×</button></div><div id="search-results" class="search-results"></div><p class="search-hint">슬라이드 제목과 설명을 함께 검색합니다. Esc로 닫기</p></div></dialog><script src="${prefix}assets/search-index.js"></script><script src="${prefix}assets/site.js"></script></body></html>`;
 }
 
 function writeIndex() {
   const cards=chapters.map(c=>`<a class="overview-card card-${c.color}" href="lecture/${c.id}.html"><div class="overview-card-top"><span>${c.id}</span><span>${c.count}개 슬라이드</span></div><h3>${esc(c.title)}</h3><p>${esc(c.short)}</p><div class="card-arrow">학습하기 <span>↗</span></div></a>`).join('');
-  const body=`<main class="home-main"><section class="home-hero"><div class="eyebrow">2026 · 2학기 · 학습 가이드</div><h1>값싼 예측에서<br><em>기대수익률의 설명</em>까지</h1><p>AI가 바꾸는 의사결정의 경제학에서 출발해, 금융 텍스트와 언어모형, 표본외 수익률 예측, 종목 간 수익률 차이의 논쟁까지 단계적으로 읽는다. 각 슬라이드와 해설이 나란히 이어진다.</p><div class="hero-actions"><a class="primary-button" href="lecture/01.html">처음부터 읽기 <span>→</span></a><a class="pdf-link" href="study-guide.pdf" download>PDF 내려받기 ↓</a><span>4개 장 · 190개 슬라이드</span></div><div class="hero-formula" aria-label="표본외 결정계수">\\[R^2_{\\mathrm{OOS}}=1-\\frac{\\mathrm{SSE}_{\\mathrm{model}}}{\\mathrm{SSE}_{\\mathrm{benchmark}}}\\]</div></section><section class="learning-path"><div class="section-kicker">학습 경로</div><h2>한 흐름으로 연결되는 네 장</h2><div class="path-line"><span>예측의 가치</span><b>→</b><span>언어모형</span><b>→</b><span>정규화와 검증</span><b>→</b><span>자산가격의 횡단면</span></div><div class="overview-grid">${cards}</div></section><section class="home-note"><h2>읽는 방법</h2><p>슬라이드 이미지를 먼저 보고 오른쪽 해설을 따라가세요. 수식은 가정과 단위를 확인한 뒤 각 등호가 왜 성립하는지 읽고, 심화 설명은 필요할 때 펼쳐 보세요. 이미지를 클릭하면 표와 그래프를 확대할 수 있습니다.</p></section><footer class="site-footer">AI금융경제 · 2026-2</footer></main>`;
+  const body=`<main class="home-main"><section class="home-hero"><div class="eyebrow">2026 · 2학기 · 학습 가이드</div><h1>값싼 예측에서<br><em>기대수익률의 설명</em>까지</h1><p>AI가 바꾸는 의사결정의 경제학에서 출발해, 금융 텍스트와 언어모형, 표본외 수익률 예측, 종목 간 수익률 차이의 논쟁까지 단계적으로 읽는다. 각 슬라이드와 해설이 나란히 이어진다.</p><div class="hero-actions"><a class="primary-button" href="lecture/01.html">처음부터 읽기 <span>→</span></a><a class="pdf-link" href="study-guide.pdf" download>PDF 내려받기 ↓</a><span>4개 장 · 190개 슬라이드</span></div><div class="hero-formula" aria-label="표본외 결정계수">\\[R^2_{\\mathrm{OOS}}=1-\\frac{\\mathrm{SSE}_{\\mathrm{model}}}{\\mathrm{SSE}_{\\mathrm{benchmark}}}\\]</div></section><section class="learning-path"><div class="section-kicker">학습 경로</div><h2>한 흐름으로 연결되는 네 장</h2><div class="path-line"><span>예측의 가치</span><b>→</b><span>언어모형</span><b>→</b><span>정규화와 검증</span><b>→</b><span>자산가격의 횡단면</span></div><div class="overview-grid">${cards}</div></section><section class="home-note"><h2>읽는 방법</h2><p>슬라이드 이미지를 먼저 보고 오른쪽 해설을 따라가세요. 수식은 가정과 단위를 확인한 뒤 각 등호가 왜 성립하는지 읽고, 추가 질문과 사례는 필요할 때 펼쳐 보세요. 이미지를 클릭하면 표와 그래프를 확대할 수 있습니다.</p></section><footer class="site-footer">AI 금융경제 · 2026-2</footer></main>`;
   fs.writeFileSync(path.join(docs,'index.html'),shell('전체 목차',body));
 }
 function writeLecture(chapter,index) {
@@ -194,7 +194,7 @@ function writeLecture(chapter,index) {
   }).join('');
   const previous=chapters[index-1]; const next=chapters[index+1];
   const pager=`<nav class="chapter-pager" aria-label="이전·다음 장">${previous?`<a href="${previous.id}.html"><small>이전 장</small><strong>← ${esc(previous.title)}</strong></a>`:'<span></span>'}${next?`<a href="${next.id}.html"><small>다음 장</small><strong>${esc(next.title)} →</strong></a>`:'<span></span>'}</nav>`;
-  const main=`<div class="layout">${sidebar}<main class="lecture-main"><section class="lecture-hero"><div class="eyebrow">${chapter.id}장 · ${chapter.count}개 슬라이드</div><h1>${esc(chapter.title)}</h1><div class="lecture-intro">${htmlWithMath(chapter.intro)}</div><div class="lecture-start"><a href="#s01">첫 슬라이드로 내려가기 ↓</a><span>${index+1} / ${chapters.length}</span></div></section>${sections}${pager}<footer class="site-footer">AI금융경제 · 2026-2</footer></main></div>`;
+  const main=`<div class="layout">${sidebar}<main class="lecture-main"><section class="lecture-hero"><div class="eyebrow">${chapter.id}장 · ${chapter.count}개 슬라이드</div><h1>${esc(chapter.title)}</h1><div class="lecture-intro">${htmlWithMath(chapter.intro)}</div><div class="lecture-start"><a href="#s01">첫 슬라이드로 내려가기 ↓</a><span>${index+1} / ${chapters.length}</span></div></section>${sections}${pager}<footer class="site-footer">AI 금융경제 · 2026-2</footer></main></div>`;
   fs.writeFileSync(path.join(docs,'lecture',`${chapter.id}.html`),shell(chapter.title,main,{prefix:'../',current:chapter.id}));
 }
 
