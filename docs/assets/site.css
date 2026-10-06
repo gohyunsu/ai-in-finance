@@ -73,9 +73,8 @@ details{border:1px solid #dce6e7;border-radius:8px;background:#f1f7f6;padding:0 
 details summary{cursor:pointer;font-size:13px;font-weight:750;color:#1d5b61;padding:12px 2px;list-style-position:outside}
 details[open] summary{border-bottom:1px solid #d5e5e3}
 details p{padding:13px 2px 15px;font-size:14px;color:#3e5361;margin:0!important}
-.concept-figure{margin:26px 0 7px;padding:20px;border:1px solid var(--line);border-radius:10px;background:#fff}
+.concept-figure{margin:28px 0 4px;width:100%}
 .concept-figure img{display:block;width:100%;height:auto}
-.concept-figure figcaption{font-size:11px;color:#8190a0;margin-top:8px;text-align:right}
 .chapter-pager{display:grid;grid-template-columns:1fr 1fr;gap:16px;padding:40px 0}
 .chapter-pager a{display:flex;flex-direction:column;border:1px solid var(--line);background:#fff;border-radius:10px;padding:18px 20px;color:var(--ink)}
 .chapter-pager a:hover{border-color:#9bbac9;text-decoration:none}

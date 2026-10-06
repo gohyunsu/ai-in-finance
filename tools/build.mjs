@@ -189,7 +189,7 @@ function writeLecture(chapter,index) {
   const sections=chapter.slides.map(s=>{
     const image=`../assets/slides/${chapter.id}/${s.number}.webp`;
     const diagram=diagramMap[`${chapter.id}-${s.number}`];
-    const diagramHtml=diagram?`<figure class="concept-figure"><img src="../assets/figures/${diagram}" alt="${esc(s.title)}을 설명하는 도식" loading="lazy"><figcaption>개념을 한눈에 보기</figcaption></figure>`:'';
+    const diagramHtml=diagram?`<figure class="concept-figure"><img src="../assets/figures/${diagram}" alt="${esc(s.title)} 관련 개념 도식" loading="lazy"></figure>`:'';
     return `<section class="slide" id="s${s.number}" data-slide="${s.number}"><div class="slide-heading"><span class="slide-index">${chapter.id} / ${s.number}</span><h2>${esc(s.title)}</h2></div><div class="slide-grid"><figure class="slide-figure"><button type="button" class="slide-image-button" data-zoom-src="${image}" data-zoom-label="${chapter.id}장 슬라이드 ${s.number}: ${esc(s.title)}" aria-label="슬라이드 ${s.number} 이미지 확대"><img src="${image}" alt="${chapter.id}장 슬라이드 ${s.number}: ${esc(s.title)}" width="1600" height="901" loading="lazy" decoding="async"><span class="zoom-hint">확대해서 보기 ↗</span></button><figcaption>슬라이드 ${s.number}</figcaption></figure><div class="explanation">${htmlWithMath(s.markdown)}${diagramHtml}</div></div></section>`;
   }).join('');
   const previous=chapters[index-1]; const next=chapters[index+1];

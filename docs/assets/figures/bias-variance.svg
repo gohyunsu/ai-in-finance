@@ -1,7 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 340" role="img" aria-labelledby="title desc">
 <title id="title">모형 복잡도에 따른 편향과 분산</title>
 <desc id="desc">복잡도가 커질수록 편향은 낮아지고 분산은 커진다. 두 항과 불가피한 잡음의 합이 예상 시험 오차를 결정한다.</desc>
-<rect width="860" height="340" rx="12" fill="#f8fbfc"/>
 <g font-family="Noto Sans KR,Malgun Gothic,sans-serif">
 <line x1="95" y1="275" x2="760" y2="275" stroke="#657d8c" stroke-width="2"/>
 <line x1="95" y1="275" x2="95" y2="45" stroke="#657d8c" stroke-width="2"/>
