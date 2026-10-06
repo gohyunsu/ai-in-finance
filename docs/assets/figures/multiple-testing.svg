@@ -8,7 +8,7 @@
 <text x="202" y="177" font-size="15" fill="#526a7b">효과가 없는 가설</text>
 <path d="M351 152 H494" fill="none" stroke="#146d70" stroke-width="3"/>
 <path d="m483 143 12 9-12 9" fill="none" stroke="#146d70" stroke-width="3"/>
-<text x="422" y="134" font-size="14" fill="#526a7b">각각 5% 검정</text>
+<text x="422" y="134" font-size="14" fill="#526a7b">보정 없이 각각 5% 검정</text>
 <rect x="500" y="92" width="300" height="120" rx="12" fill="#fbf0e1" stroke="#d9b784"/>
 <text x="650" y="142" font-size="30" font-weight="700" fill="#a36324">약 15개</text>
 <text x="650" y="177" font-size="15" fill="#765a38">기대되는 거짓 양성</text>

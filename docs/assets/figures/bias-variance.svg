@@ -1,20 +1,21 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 340" role="img" aria-labelledby="title desc">
 <title id="title">모형 복잡도에 따른 편향과 분산</title>
-<desc id="desc">복잡도가 커질수록 편향은 낮아지고 분산은 커진다. 두 항과 불가피한 잡음의 합이 예상 시험 오차를 결정한다.</desc>
+<desc id="desc">고전적 편향·분산 상충관계의 예시다. 각 복잡도에서 예상 시험 제곱오차는 편향 제곱, 예측값의 분산, 일정한 잡음분산의 합으로 계산했다.</desc>
+<!-- Illustrative curves for t=(x-100)/650 in [0,1]: bias²=.08+.78(1-t)^2, variance=.03+.72t², noise=.16, total=bias²+variance+noise; y=280-185*value. -->
 <g font-family="Noto Sans KR,Malgun Gothic,sans-serif">
-<line x1="95" y1="275" x2="760" y2="275" stroke="#657d8c" stroke-width="2"/>
-<line x1="95" y1="275" x2="95" y2="45" stroke="#657d8c" stroke-width="2"/>
+<line x1="95" y1="280" x2="760" y2="280" stroke="#657d8c" stroke-width="2"/>
+<line x1="95" y1="280" x2="95" y2="45" stroke="#657d8c" stroke-width="2"/>
 <text x="420" y="320" text-anchor="middle" font-size="15" fill="#455d6e">모형 복잡도 →</text>
 <text x="42" y="160" text-anchor="middle" font-size="15" fill="#455d6e" transform="rotate(-90 42 160)">예상 제곱오차</text>
-<path d="M100 70 C245 138 440 218 750 249" fill="none" stroke="#356185" stroke-width="4"/>
-<path d="M100 262 C285 259 470 220 750 73" fill="none" stroke="#b46e29" stroke-width="4"/>
-<path d="M100 83 C230 150 338 175 455 170 C574 164 665 140 750 75" fill="none" stroke="#146d70" stroke-width="5"/>
-<line x1="100" y1="253" x2="750" y2="253" stroke="#a4b3be" stroke-width="2" stroke-dasharray="7 6"/>
-<text x="665" y="248" font-size="15" fill="#8293a0">불가피한 잡음</text>
-<text x="661" y="60" font-size="17" font-weight="700" fill="#b46e29">분산</text>
-<text x="647" y="215" font-size="17" font-weight="700" fill="#356185">편향²</text>
-<text x="460" y="150" font-size="17" font-weight="700" fill="#146d70">합계</text>
-<circle cx="447" cy="170" r="6" fill="#146d70"/>
-<text x="432" y="197" text-anchor="end" font-size="13" fill="#174e57">검증 오차가 낮은 영역</text>
+<path d="M100 120.9 Q425 265.2 750 265.2" fill="none" stroke="#356185" stroke-width="4"/>
+<path d="M100 274.45 Q425 274.45 750 141.25" fill="none" stroke="#b46e29" stroke-width="4"/>
+<path d="M100 85.75 Q425 230.05 750 96.85" fill="none" stroke="#146d70" stroke-width="5"/>
+<line x1="100" y1="250.4" x2="750" y2="250.4" stroke="#a4b3be" stroke-width="2" stroke-dasharray="7 6"/>
+<text x="635" y="244" font-size="15" fill="#657d8c">불가피한 잡음</text>
+<text x="615" y="179" font-size="17" font-weight="700" fill="#b46e29">분산</text>
+<text x="245" y="191" font-size="17" font-weight="700" fill="#356185">편향²</text>
+<text x="460" y="143" font-size="17" font-weight="700" fill="#146d70">합계</text>
+<circle cx="438" cy="160.8" r="6" fill="#146d70"/>
+<text x="438" y="193" text-anchor="middle" font-size="13" fill="#174e57">이 예시의 최소점</text>
 </g>
 </svg>
