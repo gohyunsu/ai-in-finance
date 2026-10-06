@@ -2,7 +2,7 @@
 <title id="title">다중검정에서 우연한 발견</title>
 <desc id="desc">참 효과가 없는 가설 300개를 각각 실제 거짓 양성 확률 5퍼센트 이하로 검정하면 기대 거짓 양성 개수는 최대 15개다. 각 확률이 정확히 5퍼센트이면 기대값은 15개다.</desc>
 <g font-family="Noto Sans KR,Malgun Gothic,sans-serif" text-anchor="middle">
-<text x="430" y="53" font-size="20" font-weight="700" fill="#173655">모든 효과가 0이어도 “유의한” 결과가 생긴다</text>
+<text x="430" y="53" font-size="20" font-weight="700" fill="#173655">모든 효과가 0이어도 “유의한” 결과가 생길 수 있다</text>
 <rect x="60" y="92" width="285" height="120" rx="12" fill="#e7f0f6" stroke="#9fb8ca"/>
 <text x="202" y="142" font-size="30" font-weight="700" fill="#244f82">300개</text>
 <text x="202" y="177" font-size="15" fill="#526a7b">효과가 없는 가설</text>
