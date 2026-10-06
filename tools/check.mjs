@@ -80,8 +80,16 @@ for (let i = 0; i <= 100; i++) {
   const [bx, by] = point(bias, t);
   const [vx, vy] = point(variance, t);
   const [sx, sy] = point(sum, t);
+  const expectedBias = .08 + .78 * (1-t)**2;
+  const expectedVariance = .03 + .72 * t**2;
+  const expectedNoise = .16;
+  const toY = value => zero - 185 * value;
   if (Math.abs(bx-vx) > 0.01 || Math.abs(bx-sx) > 0.01 ||
       Math.abs(sy - (by + vy + noise - 2*zero)) > 0.02 ||
+      Math.abs(by-toY(expectedBias)) > 0.02 ||
+      Math.abs(vy-toY(expectedVariance)) > 0.02 ||
+      Math.abs(sy-toY(expectedBias+expectedVariance+expectedNoise)) > 0.02 ||
+      Math.abs(noise-toY(expectedNoise)) > 0.02 ||
       sy > by || sy > vy || sy > noise ||
       by < previousBias - 0.02 || vy > previousVariance + 0.02 ||
       by > zero || vy > zero || noise > zero) {
@@ -90,11 +98,12 @@ for (let i = 0; i <= 100; i++) {
   previousBias = by;
   previousVariance = vy;
 }
-if (!(errorY(.52) > errorY(0) && errorY(.52) > errorY(1))) {
+const theoreticalMinimum = .78 / (.78 + .72);
+if (!(errorY(theoreticalMinimum) > errorY(0) && errorY(theoreticalMinimum) > errorY(1))) {
   throw new Error('Bias-variance graph does not have an interior minimum error');
 }
 const minimumMarker = graph.match(/<circle cx="([\d.]+)" cy="([\d.]+)" r="6" fill="#146d70"/);
-const [minimumX, minimumY] = point(sum, .52);
+const [minimumX, minimumY] = point(sum, theoreticalMinimum);
 if (!minimumMarker || Math.abs(Number(minimumMarker[1]) - minimumX) > .1 ||
     Math.abs(Number(minimumMarker[2]) - minimumY) > .1) {
   throw new Error('Bias-variance graph minimum marker is misplaced');
