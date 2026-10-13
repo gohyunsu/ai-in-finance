@@ -10,6 +10,7 @@ const chapters = [
   ['05-leveraged-etfs.md', 61],
 ];
 let total = 0;
+let totalQuestions = 0;
 for (const [file, expected] of chapters) {
   const id = file.slice(0, 2);
   const source = fs.readFileSync(path.join(root, 'content', file), 'utf8');
@@ -19,10 +20,14 @@ for (const [file, expected] of chapters) {
     throw new Error(`${file}: section sequence is ${numbers.join(',')}`);
   }
   const sections = source.split(/(?=^## 슬라이드 \d{2} · )/m).slice(1);
+  let questionCount = 0;
   sections.forEach((section, index) => {
-    if (!/<details><summary>[^<]+<\/summary><p>[^<]+<\/p><\/details>/.test(section)) {
-      throw new Error(`${file}: missing question and example for slide ${index + 1}`);
+    const details = [...section.matchAll(/<details><summary>[^<]+<\/summary><p>[^<]+<\/p><\/details>/g)];
+    const tags = [...section.matchAll(/<details>/g)];
+    if (details.length !== tags.length || tags.length > 1) {
+      throw new Error(`${file}: malformed or repeated question on slide ${index + 1}`);
     }
+    questionCount += details.length;
   });
   for (const page of wanted) {
     const target = path.join(root, 'docs', 'assets', 'slides', id, `${String(page).padStart(2, '0')}.webp`);
@@ -35,10 +40,11 @@ for (const [file, expected] of chapters) {
     throw new Error(`Missing lecture page: ${id}`);
   }
   const rendered = fs.readFileSync(lecturePage, 'utf8');
-  if ([...rendered.matchAll(/<details>/g)].length !== expected) {
-    throw new Error(`Lecture ${id}: expected ${expected} question boxes`);
+  if ([...rendered.matchAll(/<details>/g)].length !== questionCount) {
+    throw new Error(`Lecture ${id}: expected ${questionCount} question boxes`);
   }
   total += expected;
+  totalQuestions += questionCount;
 }
 const publicRoot = path.join(root, 'docs');
 function walk(dir) {
@@ -109,4 +115,4 @@ if (!minimumMarker || Math.abs(Number(minimumMarker[1]) - minimumX) > .1 ||
     Math.abs(Number(minimumMarker[2]) - minimumY) > .1) {
   throw new Error('Bias-variance graph minimum marker is misplaced');
 }
-console.log(`Verified ${chapters.length} slide lectures, ${total} slide sections, images, question boxes and graph decomposition; no source files in docs/.`);
+console.log(`Verified ${chapters.length} slide lectures, ${total} slide sections, images, ${totalQuestions} optional questions and graph decomposition; no source files in docs/.`);
