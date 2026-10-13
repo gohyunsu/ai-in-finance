@@ -7,6 +7,7 @@ const chapters = [
   ['02-language-models.md', 30],
   ['03-regularization.md', 62],
   ['04-cross-section.md', 65],
+  ['05-leveraged-etfs.md', 61],
 ];
 let total = 0;
 for (const [file, expected] of chapters) {
@@ -108,4 +109,4 @@ if (!minimumMarker || Math.abs(Number(minimumMarker[1]) - minimumX) > .1 ||
     Math.abs(Number(minimumMarker[2]) - minimumY) > .1) {
   throw new Error('Bias-variance graph minimum marker is misplaced');
 }
-console.log(`Verified ${chapters.length} lectures, ${total} slide sections, images, question boxes and graph decomposition; no source files in docs/.`);
+console.log(`Verified ${chapters.length} slide lectures, ${total} slide sections, images, question boxes and graph decomposition; no source files in docs/.`);

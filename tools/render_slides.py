@@ -22,6 +22,7 @@ FILES = [
     ('02', 'Session 1B class.pdf'),
     ('03', 'Session 2 class.pdf'),
     ('04', 'Session 4A class.pdf'),
+    ('05', 'Leveraged ETFs.pdf'),
 ]
 for lecture, name in FILES:
     pdf = SOURCE / name
@@ -31,7 +32,9 @@ for lecture, name in FILES:
     if len(list(target_dir.glob('*.webp'))) == count:
         print(f'{lecture}: {count} slide images already present')
         continue
-    with TemporaryDirectory(prefix=f'lecture-{lecture}-') as tmp:
+    scratch = ROOT / 'tmp'
+    scratch.mkdir(exist_ok=True)
+    with TemporaryDirectory(prefix=f'lecture-{lecture}-', dir=scratch) as tmp:
         prefix = Path(tmp) / 'slide'
         subprocess.run(
             [str(POPPLER), '-scale-to-x', '1600', '-scale-to-y', '-1', '-png',

@@ -9,6 +9,7 @@ const lectures = [
   {id:'02', file:'02-language-models.md', title:'금융 텍스트와 언어모형', short:'사전부터 LLM까지·환각과 검증', count:30, color:'teal'},
   {id:'03', file:'03-regularization.md', title:'정규화 회귀와 수익률 예측', short:'OOS 검증·Ridge·Lasso', count:62, color:'amber'},
   {id:'04', file:'04-cross-section.md', title:'종목 간 기대수익률과 요인 논쟁', short:'이상현상·위험과 가격오류·재현', count:65, color:'blue'},
+  {id:'05', file:'05-leveraged-etfs.md', title:'레버리지 ETF와 시장 미시구조', short:'설정·환매·리밸런싱·복리·시장 충격', count:61, color:'teal'},
 ];
 const esc = s => s.replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;');
 
@@ -152,7 +153,7 @@ function writeTex() {
 \vspace{1.2cm}
 {\Huge\bfseries 슬라이드별 학습 가이드\par}
 \vspace{1.2cm}
-{\large 값싼 예측에서 종목 간 기대수익률까지\par}
+{\large 값싼 예측에서 레버리지 ETF까지\par}
 \vfill
 {\large 2026년 2학기\par}
 \end{titlepage}
@@ -181,7 +182,7 @@ function shell(title, body, {prefix='', current=''}={}) {
 
 function writeIndex() {
   const cards=chapters.map(c=>`<a class="overview-card card-${c.color}" href="lecture/${c.id}.html"><div class="overview-card-top"><span>${c.id}</span><span>${c.count}개 슬라이드</span></div><h3>${esc(c.title)}</h3><p>${esc(c.short)}</p><div class="card-arrow">학습하기 <span>↗</span></div></a>`).join('');
-  const body=`<main class="home-main"><section class="home-hero"><div class="eyebrow">AI 금융경제</div><h1>값싼 예측에서<br><em>기대수익률의 설명</em>까지</h1><p>AI가 바꾸는 의사결정의 경제학에서 출발해, 금융 텍스트와 언어모형, 표본외 수익률 예측, 종목 간 수익률 차이의 논쟁까지 단계적으로 읽는다. 각 슬라이드와 해설이 나란히 이어진다.</p><div class="hero-actions"><a class="primary-button" href="lecture/01.html">처음부터 읽기 <span>→</span></a><a class="pdf-link" href="study-guide.pdf" download>PDF 내려받기 ↓</a><span>4개 장 · 190개 슬라이드</span></div><div class="hero-formula" aria-label="표본외 결정계수">\\[R^2_{\\mathrm{OOS}}=1-\\frac{\\mathrm{SSE}_{\\mathrm{model}}}{\\mathrm{SSE}_{\\mathrm{benchmark}}}\\]</div></section><section class="learning-path"><div class="section-kicker">학습 경로</div><h2>한 흐름으로 연결되는 네 장</h2><div class="path-line"><span>예측의 가치</span><b>→</b><span>언어모형</span><b>→</b><span>정규화와 검증</span><b>→</b><span>자산가격의 횡단면</span></div><div class="overview-grid">${cards}</div></section><section class="home-note"><h2>읽는 방법</h2><p>슬라이드 이미지를 먼저 보고 오른쪽 해설을 따라가세요. 수식은 가정과 단위를 확인한 뒤 각 등호가 왜 성립하는지 읽고, 추가 질문과 사례는 필요할 때 펼쳐 보세요. 이미지를 클릭하면 표와 그래프를 확대할 수 있습니다.</p></section><footer class="site-footer">AI 금융경제 · 2026-2</footer></main>`;
+  const body=`<main class="home-main"><section class="home-hero"><div class="eyebrow">AI 금융경제</div><h1>값싼 예측에서<br><em>금융시장의 작동</em>까지</h1><p>AI가 바꾸는 의사결정의 경제학에서 출발해, 금융 텍스트와 언어모형, 수익률 예측과 종목 간 차이를 읽는다. 레버리지 ETF에서는 가격과 순자산가치, 일일 리밸런싱이 투자 성과로 이어지는 과정을 계산한다.</p><div class="hero-actions"><a class="primary-button" href="lecture/01.html">처음부터 읽기 <span>→</span></a><a class="pdf-link" href="study-guide.pdf" download>PDF 내려받기 ↓</a><span>5개 장 · 251개 슬라이드</span></div><div class="hero-formula" aria-label="표본외 결정계수">\\[R^2_{\\mathrm{OOS}}=1-\\frac{\\mathrm{SSE}_{\\mathrm{model}}}{\\mathrm{SSE}_{\\mathrm{benchmark}}}\\]</div></section><section class="learning-path"><div class="section-kicker">학습 경로</div><h2>이론에서 상품의 작동까지</h2><div class="path-line"><span>예측의 가치</span><b>→</b><span>언어모형</span><b>→</b><span>정규화와 검증</span><b>→</b><span>자산가격의 횡단면</span><b>→</b><span>레버리지 ETF</span></div><div class="overview-grid">${cards}</div></section><section class="home-note"><h2>읽는 방법</h2><p>각 슬라이드 이미지를 먼저 보고 오른쪽 해설을 따라가세요. 수식은 가정과 단위를 확인한 뒤 각 등호가 왜 성립하는지 읽고, 추가 질문과 사례는 필요할 때 펼쳐 보세요.</p></section><footer class="site-footer">AI 금융경제 · 2026-2</footer></main>`;
   fs.writeFileSync(path.join(docs,'index.html'),shell('전체 목차',body));
 }
 function writeLecture(chapter,index) {
@@ -205,4 +206,4 @@ writeIndex();
 chapters.forEach(writeLecture);
 const search=chapters.flatMap(c=>c.slides.map(s=>({chapter:c.id, chapterTitle:c.title, slide:s.number, title:s.title, text:s.markdown.replace(/<[^>]+>|\$\$?/g,' ').replace(/[*_`#|\\]/g,' ').replace(/\s+/g,' ')})));
 fs.writeFileSync(path.join(docs,'assets','search-index.js'),`window.GUIDE_SEARCH=${JSON.stringify(search)};\n`);
-console.log(`Built ${chapters.length} lecture pages, ${search.length} slide sections, and guide/main.tex`);
+console.log(`Built ${chapters.length} lecture pages, ${chapters.reduce((n,c)=>n+c.count,0)} slide sections, and guide/main.tex`);

@@ -43,7 +43,7 @@ kbd{border:1px solid var(--line);border-radius:4px;min-width:20px;text-align:cen
 .lecture-intro p{margin:0}
 .lecture-start{display:flex;justify-content:space-between;align-items:center;margin-top:42px;font-size:13px;color:#8b99a6}
 .lecture-start a{font-weight:700}
-.slide{padding:57px 0 67px;border-bottom:1px solid var(--line)}
+.slide{padding:57px 0 67px;border-bottom:1px solid var(--line);scroll-margin-top:var(--header-h)}
 .slide-heading{margin-bottom:27px}
 .slide-index{font:700 12px ui-monospace,SFMono-Regular,Consolas,monospace;color:var(--teal);letter-spacing:.12em}
 .slide-heading h2{font-size:clamp(24px,2.45vw,34px);line-height:1.35;letter-spacing:-.04em;margin:7px 0 0}
