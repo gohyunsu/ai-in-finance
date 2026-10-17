@@ -138,6 +138,7 @@ function writeTex() {
 \XeTeXlinebreakskip=0pt plus 1pt
 \usepackage{amsmath,amssymb}
 \usepackage{longtable,array}
+\usepackage{needspace}
 \usepackage{xcolor}
 \newcommand{\href}[2]{#2\footnote{\texttt{\detokenize{#1}}}}
 \setlength{\parindent}{0pt}
@@ -165,7 +166,7 @@ function writeTex() {
     body += `\n\\section{${texEscape(`${chapter.id}. ${chapter.title}`)}}\n`;
     body += markdownToTex(chapter.intro)+'\n';
     for (const slide of chapter.slides) {
-      body += `\n\\subsection{${texEscape(`슬라이드 ${slide.number} · ${slide.title}`)}}\n`;
+      body += `\n\\Needspace{6\\baselineskip}\n\\subsection{${texEscape(`슬라이드 ${slide.number} · ${slide.title}`)}}\n`;
       body += markdownToTex(slide.markdown)+'\n';
     }
   }

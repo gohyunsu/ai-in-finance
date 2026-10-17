@@ -64,8 +64,6 @@ NAV(net asset value)는 펀드 자산의 시장가치에서 부채를 뺀 순자
 
 지수는 운용 목표를 표시하는 기준값이다. NAV 수익률에는 실제 보유자산, 보수와 추적오차가 반영된다. 투자자의 체결수익률에는 여기에 매수·매도 가격의 괴리와 스프레드가 더해진다. 기초자산이 휴장 중인 해외 ETF에서는 장중 iNAV도 새로운 정보를 느리게 반영할 수 있다.
 
-<details><summary>한 주당 NAV가 늘었는데 투자자가 손실을 볼 수 있나요?</summary><p>매수 때 지불한 프리미엄이 보유 중 사라지면 가능합니다. 다음 슬라이드의 체결가격 수익률은 NAV 변화와 괴리 변화가 함께 결정합니다.</p></details>
-
 ## 슬라이드 10 · AP, LP, 설정 단위
 
 AP(authorized participant, 지정참가회사)는 운용사와 정해진 큰 단위인 creation unit으로 ETF 지분을 새로 만들거나 돌려줄 권한이 있다. LP(liquidity provider, 유동성공급자)는 거래소에 매수·매도 호가를 제시한다. 한 증권사가 두 역할을 겸할 수 있지만 **설정·환매 권한**과 **주문장 호가 공급**은 기능이 다르다. [한국거래소의 설정·환매 제도](https://regulation.krx.co.kr/contents/RGL/03/03060106/RGL03060106.jsp)와 [LP 제도](https://regulation.krx.co.kr/contents/RGL/03/03060103/RGL03060103.jsp)를 참고할 수 있다.
