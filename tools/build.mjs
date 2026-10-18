@@ -163,7 +163,7 @@ function writeTex() {
 `;
   let body='';
   for (const chapter of chapters) {
-    body += `\n\\section{${texEscape(`${chapter.id}. ${chapter.title}`)}}\n`;
+    body += `\n\\section{${texEscape(chapter.title)}}\n`;
     body += markdownToTex(chapter.intro)+'\n';
     for (const slide of chapter.slides) {
       body += `\n\\Needspace{6\\baselineskip}\n\\subsection{${texEscape(`슬라이드 ${slide.number} · ${slide.title}`)}}\n`;
