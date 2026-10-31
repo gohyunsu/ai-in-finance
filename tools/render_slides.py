@@ -22,6 +22,8 @@ FILES = [
     ('02', 'Session 1B class.pdf'),
     ('03', 'Session 2 class.pdf'),
     ('04', 'Session 4A class.pdf'),
+    ('4B', 'Session 4B.pdf'),
+    ('4C', 'Session 4C.pdf'),
     ('05', 'Leveraged ETFs.pdf'),
 ]
 for lecture, name in FILES:

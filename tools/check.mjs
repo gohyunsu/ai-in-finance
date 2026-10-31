@@ -7,6 +7,8 @@ const chapters = [
   ['02-language-models.md', 30],
   ['03-regularization.md', 62],
   ['04-cross-section.md', 65],
+  ['4B-toolbox.md', 43],
+  ['4C-empirical-ml.md', 37],
   ['05-leveraged-etfs.md', 61],
 ];
 let total = 0;

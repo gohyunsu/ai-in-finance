@@ -9,6 +9,8 @@ const lectures = [
   {id:'02', file:'02-language-models.md', title:'금융 텍스트와 언어모형', short:'사전부터 LLM까지·환각과 검증', count:30, color:'teal'},
   {id:'03', file:'03-regularization.md', title:'정규화 회귀와 수익률 예측', short:'OOS 검증·Ridge·Lasso', count:62, color:'amber'},
   {id:'04', file:'04-cross-section.md', title:'종목 간 기대수익률과 요인 논쟁', short:'이상현상·위험과 가격오류·재현', count:65, color:'blue'},
+  {id:'4B', file:'4B-toolbox.md', title:'수익률 예측의 도구', short:'PCA·나무·신경망·상호작용', count:43, color:'amber'},
+  {id:'4C', file:'4C-empirical-ml.md', title:'머신러닝으로 본 횡단면 수익률', short:'예측 검증·특성 중요도·거래비용', count:37, color:'blue'},
   {id:'05', file:'05-leveraged-etfs.md', title:'레버리지 ETF와 시장 미시구조', short:'설정·환매·리밸런싱·복리·시장 충격', count:61, color:'teal'},
 ];
 const esc = s => s.replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;');
@@ -145,6 +147,7 @@ function writeTex() {
 \setlength{\parskip}{0.55em}
 \emergencystretch=3em
 \setcounter{tocdepth}{2}
+\makeatletter\renewcommand{\@pnumwidth}{2em}\makeatother
 \renewcommand{\arraystretch}{1.25}
 \begin{document}
 \begin{titlepage}
@@ -183,7 +186,7 @@ function shell(title, body, {prefix='', current=''}={}) {
 
 function writeIndex() {
   const cards=chapters.map(c=>`<a class="overview-card card-${c.color}" href="lecture/${c.id}.html"><div class="overview-card-top"><span>${c.id}</span><span>${c.count}개 슬라이드</span></div><h3>${esc(c.title)}</h3><p>${esc(c.short)}</p><div class="card-arrow">학습하기 <span>↗</span></div></a>`).join('');
-  const body=`<main class="home-main"><section class="home-hero"><div class="eyebrow">AI 금융경제</div><h1>값싼 예측에서<br><em>금융시장의 작동</em>까지</h1><p>AI가 바꾸는 의사결정의 경제학에서 출발해, 금융 텍스트와 언어모형, 수익률 예측과 종목 간 차이를 읽는다. 레버리지 ETF에서는 가격과 순자산가치, 일일 리밸런싱이 투자 성과로 이어지는 과정을 계산한다.</p><div class="hero-actions"><a class="primary-button" href="lecture/01.html">처음부터 읽기 <span>→</span></a><a class="pdf-link" href="study-guide.pdf" download>PDF 내려받기 ↓</a><span>5개 장 · 251개 슬라이드</span></div><div class="hero-formula" aria-label="표본외 결정계수">\\[R^2_{\\mathrm{OOS}}=1-\\frac{\\mathrm{SSE}_{\\mathrm{model}}}{\\mathrm{SSE}_{\\mathrm{benchmark}}}\\]</div></section><section class="learning-path"><div class="section-kicker">학습 경로</div><h2>이론에서 상품의 작동까지</h2><div class="path-line"><span>예측의 가치</span><b>→</b><span>언어모형</span><b>→</b><span>정규화와 검증</span><b>→</b><span>자산가격의 횡단면</span><b>→</b><span>레버리지 ETF</span></div><div class="overview-grid">${cards}</div></section><section class="home-note"><h2>읽는 방법</h2><p>각 슬라이드 이미지를 먼저 보고 오른쪽 해설을 따라가세요. 수식은 가정과 단위를 확인한 뒤 각 등호가 왜 성립하는지 읽고, 핵심 개념에 붙은 추가 질문은 필요할 때 펼쳐 보세요.</p></section><footer class="site-footer">AI 금융경제 · 2026-2</footer></main>`;
+  const body=`<main class="home-main"><section class="home-hero"><div class="eyebrow">AI 금융경제</div><h1>값싼 예측에서<br><em>금융시장의 작동</em>까지</h1><p>AI가 바꾸는 의사결정의 경제학에서 출발해, 금융 텍스트와 언어모형, 수익률 예측과 종목 간 차이를 읽는다. 여러 예측 방법을 실제 주식 자료에서 비교하고, 레버리지 ETF에서는 가격과 순자산가치, 일일 리밸런싱이 투자 성과로 이어지는 과정을 계산한다.</p><div class="hero-actions"><a class="primary-button" href="lecture/01.html">처음부터 읽기 <span>→</span></a><a class="pdf-link" href="study-guide.pdf" download>PDF 내려받기 ↓</a><span>${chapters.length}개 장 · ${chapters.reduce((n,c)=>n+c.count,0)}개 슬라이드</span></div><div class="hero-formula" aria-label="표본외 결정계수">\\[R^2_{\\mathrm{OOS}}=1-\\frac{\\mathrm{SSE}_{\\mathrm{model}}}{\\mathrm{SSE}_{\\mathrm{benchmark}}}\\]</div></section><section class="learning-path"><div class="section-kicker">학습 경로</div><h2>이론에서 상품의 작동까지</h2><div class="path-line"><span>예측의 가치</span><b>→</b><span>언어모형</span><b>→</b><span>정규화와 검증</span><b>→</b><span>자산가격의 횡단면</span><b>→</b><span>머신러닝 실증</span><b>→</b><span>레버리지 ETF</span></div><div class="overview-grid">${cards}</div></section><section class="home-note"><h2>읽는 방법</h2><p>각 슬라이드 이미지를 먼저 보고 오른쪽 해설을 따라가세요. 수식은 가정과 단위를 확인한 뒤 각 등호가 왜 성립하는지 읽고, 핵심 개념에 붙은 추가 질문은 필요할 때 펼쳐 보세요.</p></section><footer class="site-footer">AI 금융경제 · 2026-2</footer></main>`;
   fs.writeFileSync(path.join(docs,'index.html'),shell('전체 목차',body));
 }
 function writeLecture(chapter,index) {
