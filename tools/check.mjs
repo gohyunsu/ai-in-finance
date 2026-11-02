@@ -5,7 +5,7 @@ const root = path.resolve(import.meta.dirname, '..');
 const chapters = JSON.parse(fs.readFileSync(path.join(root, 'tools', 'lectures.json'), 'utf8'));
 let total = 0;
 let totalQuestions = 0;
-for (const {id, slug, label, file, sourceFile, count: expected} of chapters) {
+for (const {id, slug, label, file, sourceFile, count: expected, legacy} of chapters) {
   const source = fs.readFileSync(path.join(root, 'content', file), 'utf8');
   if (!source.startsWith(`# ${label} · `)) throw new Error(`${file}: source label does not match ${sourceFile}`);
   const numbers = [...source.matchAll(/^## 슬라이드 (\d{2}) · /gm)].map(m => Number(m[1]));
@@ -42,9 +42,11 @@ for (const {id, slug, label, file, sourceFile, count: expected} of chapters) {
       !rendered.includes(`<span class="slide-index">${label} · ${String(expected).padStart(2, '0')}</span>`)) {
     throw new Error(`Lecture ${label}: inconsistent slide numbering`);
   }
-  const oldPage = fs.readFileSync(path.join(root, 'docs', 'lecture', `${id}.html`), 'utf8');
-  if (!oldPage.includes(`${slug}.html`) || !oldPage.includes('location.hash')) {
-    throw new Error(`Lecture ${label}: old link does not preserve the slide anchor`);
+  if (legacy !== false) {
+    const oldPage = fs.readFileSync(path.join(root, 'docs', 'lecture', `${id}.html`), 'utf8');
+    if (!oldPage.includes(`${slug}.html`) || !oldPage.includes('location.hash')) {
+      throw new Error(`Lecture ${label}: old link does not preserve the slide anchor`);
+    }
   }
   total += expected;
   totalQuestions += questionCount;

@@ -109,7 +109,7 @@ function markdownToTex(markdown) {
         : 'p{0.13\\linewidth}p{0.12\\linewidth}p{0.15\\linewidth}p{0.19\\linewidth}p{0.14\\linewidth}p{0.18\\linewidth}';
       const size=count===3 ? '\\small' : '\\footnotesize\\setlength{\\tabcolsep}{3pt}';
       output.push(`\\begin{center}${size}\\begin{longtable}{${widths}}\\hline`);
-      rows.forEach((row,n)=>output.push(`${row.map(inlineTex).join(' & ')} \\\\ ${n===0?'\\hline':''}`));
+      rows.forEach((row,n)=>output.push(`${row.map(inlineTex).join(' & ')} \\\\${n===0?' \\hline':''}`));
       output.push('\\hline\\end{longtable}\\end{center}\\normalsize');
       continue;
     }
@@ -138,8 +138,9 @@ function writeTex() {
 \setlength{\parindent}{0pt}
 \setlength{\parskip}{0.55em}
 \emergencystretch=3em
-\setcounter{tocdepth}{2}
+\setcounter{tocdepth}{1}
 \setcounter{secnumdepth}{0}
+\renewcommand{\contentsname}{목차}
 \makeatletter\renewcommand{\@pnumwidth}{2em}\makeatother
 \renewcommand{\arraystretch}{1.25}
 \begin{document}
@@ -159,7 +160,7 @@ function writeTex() {
 `;
   let body='';
   for (const chapter of chapters) {
-    body += `\n\\section{${texEscape(`${chapter.label} · ${chapter.title}`)}}\n`;
+    body += `\n\\Needspace{14\\baselineskip}\n\\section{${texEscape(`${chapter.label} · ${chapter.title}`)}}\n`;
     body += markdownToTex(chapter.intro)+'\n';
     for (const slide of chapter.slides) {
       body += `\n\\Needspace{6\\baselineskip}\n\\subsection{${texEscape(`슬라이드 ${slide.number} · ${slide.title}`)}}\n`;
@@ -202,6 +203,7 @@ writeTex();
 writeIndex();
 chapters.forEach(writeLecture);
 for (const chapter of chapters) {
+  if (chapter.legacy === false) continue;
   const target = `${chapter.slug}.html`;
   const redirect = `<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="canonical" href="${target}"><title>${chapter.label} · AI 금융경제</title></head><body><script>location.replace(${JSON.stringify(target)}+location.search+location.hash)</script><a href="${target}">${chapter.label} 열기</a></body></html>`;
   fs.writeFileSync(path.join(docs,'lecture',`${chapter.id}.html`),redirect,'utf8');
