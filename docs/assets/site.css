@@ -23,13 +23,9 @@ kbd{border:1px solid var(--line);border-radius:4px;min-width:20px;text-align:cen
 .sidebar-label{color:#8190a0;font-size:11px;font-weight:800;letter-spacing:.13em;text-transform:uppercase;margin:0 11px 11px}
 .sidebar-label-slides{margin-top:30px}
 .chapter-nav{display:grid;gap:3px}
-.chapter-link{display:grid;grid-template-columns:25px 1fr auto;align-items:start;gap:10px;padding:10px;border-radius:10px;color:var(--ink)}
+.chapter-link{display:block;padding:8px 11px;border-radius:6px;color:var(--ink);font-size:12.5px;font-weight:700;line-height:1.4}
 .chapter-link:hover,.chapter-link.is-current{background:#edf2f6;text-decoration:none}
 .chapter-link.is-current{box-shadow:inset 3px 0 var(--teal)}
-.chapter-num{font:700 12px ui-monospace,SFMono-Regular,Consolas,monospace;color:var(--teal);padding-top:4px}
-.chapter-link strong{display:block;font-size:12.5px;line-height:1.45;font-weight:700;letter-spacing:-.02em}
-.chapter-link small{display:block;color:var(--muted);font-size:11px;margin-top:2px;line-height:1.4}
-.chapter-count{font-size:10px;color:#91a0ad;padding-top:4px}
 .slide-nav{display:grid;gap:1px}
 .slide-nav a{display:flex;gap:10px;align-items:flex-start;padding:6px 11px;color:#667587;font-size:12px;line-height:1.45;border-radius:6px}
 .slide-nav a span{flex:none;width:20px;font:600 11px ui-monospace,SFMono-Regular,Consolas,monospace;color:#a0acb7;padding-top:1px}

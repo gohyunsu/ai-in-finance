@@ -138,7 +138,7 @@ function writeTex() {
 \setlength{\parindent}{0pt}
 \setlength{\parskip}{0.55em}
 \emergencystretch=3em
-\setcounter{tocdepth}{1}
+\setcounter{tocdepth}{2}
 \setcounter{secnumdepth}{0}
 \renewcommand{\contentsname}{목차}
 \makeatletter\renewcommand{\@pnumwidth}{2em}\makeatother
@@ -172,7 +172,7 @@ function writeTex() {
 }
 
 const diagramMap = {'01-07':'decision-value.svg','03-24':'bias-variance.svg','04-49':'multiple-testing.svg'};
-const navCards = current => chapters.map(c => `<a class="chapter-link ${current===c.slug?'is-current':''}" href="${current?'../':''}lecture/${c.slug}.html"><span class="chapter-num">${c.label}</span><span><strong>${esc(c.title)}</strong><small>${esc(c.short)}</small></span><span class="chapter-count">${c.count}</span></a>`).join('');
+const navCards = current => chapters.map(c => `<a class="chapter-link ${current===c.slug?'is-current':''}" href="${current?'../':''}lecture/${c.slug}.html" title="${esc(c.title)}"${current===c.slug?' aria-current="page"':''}>${esc(c.label)}</a>`).join('');
 const mathjax = `<script>window.MathJax={tex:{inlineMath:[['\\\\(','\\\\)']],displayMath:[['\\\\[','\\\\]']]},options:{skipHtmlTags:['script','noscript','style','textarea','pre','code']}};</script><script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>`;
 function shell(title, body, {prefix='', current=''}={}) {
   return `<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="AI 금융경제 — 슬라이드별 한국어 학습 가이드"><title>${esc(title)} · AI 금융경제</title><link rel="stylesheet" href="${prefix}assets/site.css">${mathjax}</head><body data-prefix="${prefix}"><div class="reading-progress" aria-hidden="true"></div><header class="site-header"><a class="brand" href="${prefix}index.html"><span class="brand-mark">ƒ</span><span>AI 금융경제</span></a><span class="header-divider"></span><span class="header-subtitle">슬라이드별 학습 가이드</span><a class="pdf-link" href="${prefix}study-guide.pdf" download>PDF 가이드 ↓</a><button type="button" class="search-trigger" data-search-trigger aria-label="전체 검색 열기"><span>⌕</span> 검색 <kbd>/</kbd></button></header>${body}<dialog id="slide-dialog" class="slide-dialog" aria-label="슬라이드 이미지 확대"><button type="button" class="dialog-close" data-dialog-close aria-label="이미지 닫기">×</button><img alt=""><div class="slide-dialog-bar"><button type="button" data-dialog-prev aria-label="이전 슬라이드">← 이전</button><p aria-live="polite"></p><button type="button" data-dialog-next aria-label="다음 슬라이드">다음 →</button></div></dialog><dialog id="search-dialog" class="search-dialog"><div class="search-panel"><div class="search-input-row"><span>⌕</span><input type="search" id="search-input" placeholder="개념, 사례, 수식 검색" aria-label="전체 내용 검색"><button type="button" data-search-close aria-label="검색 닫기">×</button></div><div id="search-results" class="search-results"></div><p class="search-hint">슬라이드 제목과 설명을 함께 검색합니다. Esc로 닫기</p></div></dialog><script src="${prefix}assets/search-index.js"></script><script src="${prefix}assets/site.js"></script></body></html>`;
