@@ -2,20 +2,12 @@ import fs from 'node:fs';
 import path from 'node:path';
 
 const root = path.resolve(import.meta.dirname, '..');
-const chapters = [
-  ['01-foundations.md', 33],
-  ['02-language-models.md', 30],
-  ['03-regularization.md', 62],
-  ['04-cross-section.md', 65],
-  ['4B-toolbox.md', 43],
-  ['4C-empirical-ml.md', 37],
-  ['05-leveraged-etfs.md', 61],
-];
+const chapters = JSON.parse(fs.readFileSync(path.join(root, 'tools', 'lectures.json'), 'utf8'));
 let total = 0;
 let totalQuestions = 0;
-for (const [file, expected] of chapters) {
-  const id = file.slice(0, 2);
+for (const {id, slug, label, file, sourceFile, count: expected} of chapters) {
   const source = fs.readFileSync(path.join(root, 'content', file), 'utf8');
+  if (!source.startsWith(`# ${label} · `)) throw new Error(`${file}: source label does not match ${sourceFile}`);
   const numbers = [...source.matchAll(/^## 슬라이드 (\d{2}) · /gm)].map(m => Number(m[1]));
   const wanted = Array.from({length: expected}, (_, i) => i + 1);
   if (JSON.stringify(numbers) !== JSON.stringify(wanted)) {
@@ -37,16 +29,34 @@ for (const [file, expected] of chapters) {
       throw new Error(`Missing or empty slide image: ${target}`);
     }
   }
-  const lecturePage = path.join(root, 'docs', 'lecture', `${id}.html`);
+  const lecturePage = path.join(root, 'docs', 'lecture', `${slug}.html`);
   if (!fs.existsSync(lecturePage)) {
-    throw new Error(`Missing lecture page: ${id}`);
+    throw new Error(`Missing lecture page: ${slug}`);
   }
   const rendered = fs.readFileSync(lecturePage, 'utf8');
   if ([...rendered.matchAll(/<details>/g)].length !== questionCount) {
-    throw new Error(`Lecture ${id}: expected ${questionCount} question boxes`);
+    throw new Error(`Lecture ${label}: expected ${questionCount} question boxes`);
+  }
+  if ([...rendered.matchAll(/<span class="slide-index">/g)].length !== expected ||
+      !rendered.includes(`<span class="slide-index">${label} · 01</span>`) ||
+      !rendered.includes(`<span class="slide-index">${label} · ${String(expected).padStart(2, '0')}</span>`)) {
+    throw new Error(`Lecture ${label}: inconsistent slide numbering`);
+  }
+  const oldPage = fs.readFileSync(path.join(root, 'docs', 'lecture', `${id}.html`), 'utf8');
+  if (!oldPage.includes(`${slug}.html`) || !oldPage.includes('location.hash')) {
+    throw new Error(`Lecture ${label}: old link does not preserve the slide anchor`);
   }
   total += expected;
   totalQuestions += questionCount;
+}
+const indexPage = fs.readFileSync(path.join(root, 'docs', 'index.html'), 'utf8');
+const searchData = JSON.parse(fs.readFileSync(path.join(root, 'docs', 'assets', 'search-index.js'), 'utf8').replace(/^window\.GUIDE_SEARCH=/, '').trim().replace(/;$/, ''));
+for (const {slug, label, count} of chapters) {
+  if (!indexPage.includes(`href="lecture/${slug}.html"`) || !indexPage.includes(`<span>${label}</span>`)) {
+    throw new Error(`Index missing ${label}`);
+  }
+  const items = searchData.filter(item => item.chapter === slug && item.chapterLabel === label);
+  if (items.length !== count) throw new Error(`Search index missing ${label} slides`);
 }
 const publicRoot = path.join(root, 'docs');
 function walk(dir) {

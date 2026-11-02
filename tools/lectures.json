@@ -1,0 +1,9 @@
+[
+  {"id":"01","slug":"session-1a","label":"Session 1A","sourceFile":"Session 1A class.pdf","file":"01-foundations.md","title":"값싼 예측과 AI의 경제학","short":"의사결정·보완재·자산가격","count":33,"color":"blue"},
+  {"id":"02","slug":"session-1b","label":"Session 1B","sourceFile":"Session 1B class.pdf","file":"02-language-models.md","title":"금융 텍스트와 언어모형","short":"사전부터 LLM까지·환각과 검증","count":30,"color":"teal"},
+  {"id":"03","slug":"session-2","label":"Session 2","sourceFile":"Session 2 class.pdf","file":"03-regularization.md","title":"정규화 회귀와 수익률 예측","short":"OOS 검증·Ridge·Lasso","count":62,"color":"amber"},
+  {"id":"04","slug":"session-4a","label":"Session 4A","sourceFile":"Session 4A class.pdf","file":"04-cross-section.md","title":"종목 간 기대수익률과 요인 논쟁","short":"이상현상·위험과 가격오류·재현","count":65,"color":"blue"},
+  {"id":"4B","slug":"session-4b","label":"Session 4B","sourceFile":"Session 4B.pdf","file":"4B-toolbox.md","title":"수익률 예측의 도구","short":"PCA·나무·신경망·상호작용","count":43,"color":"amber"},
+  {"id":"4C","slug":"session-4c","label":"Session 4C","sourceFile":"Session 4C.pdf","file":"4C-empirical-ml.md","title":"머신러닝으로 본 횡단면 수익률","short":"예측 검증·특성 중요도·거래비용","count":37,"color":"blue"},
+  {"id":"05","slug":"leveraged-etfs","label":"Leveraged ETFs","sourceFile":"Leveraged ETFs.pdf","file":"05-leveraged-etfs.md","title":"레버리지 ETF와 시장 미시구조","short":"설정·환매·리밸런싱·복리·시장 충격","count":61,"color":"teal"}
+]

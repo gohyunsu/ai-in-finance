@@ -11,7 +11,7 @@ function renderSearch(query){
   if(!q){searchResults.innerHTML='<p>찾고 싶은 개념이나 사례를 입력하세요.</p>';return}
   const words=q.split(/\s+/).filter(Boolean);
   const found=(window.GUIDE_SEARCH||[]).filter(x=>words.every(w=>`${x.title} ${x.chapterTitle} ${x.text}`.toLocaleLowerCase('ko').includes(w))).slice(0,14);
-  searchResults.innerHTML=found.length?found.map(x=>`<a href="${prefix}lecture/${x.chapter}.html#s${x.slide}"><small>${x.chapter}장 · 슬라이드 ${x.slide}</small><strong>${escapeHtml(x.title)}</strong><span>${escapeHtml(searchSnippet(x.text,words))}</span></a>`).join(''):'<p>일치하는 슬라이드가 없습니다.</p>';
+  searchResults.innerHTML=found.length?found.map(x=>`<a href="${prefix}lecture/${x.chapter}.html#s${x.slide}"><small>${escapeHtml(x.chapterLabel)} · 슬라이드 ${x.slide}</small><strong>${escapeHtml(x.title)}</strong><span>${escapeHtml(searchSnippet(x.text,words))}</span></a>`).join(''):'<p>일치하는 슬라이드가 없습니다.</p>';
 }
 function searchSnippet(source,words){
   const lower=source.toLocaleLowerCase('ko');
@@ -25,12 +25,34 @@ searchInput.addEventListener('input',()=>renderSearch(searchInput.value));
 searchDialog.addEventListener('click',e=>{if(e.target===searchDialog)searchDialog.close()});
 
 const slideDialog=document.getElementById('slide-dialog');
-document.querySelectorAll('[data-zoom-src]').forEach(button=>button.addEventListener('click',()=>{
-  slideDialog.querySelector('img').src=button.dataset.zoomSrc;
-  slideDialog.querySelector('img').alt=button.dataset.zoomLabel;
-  slideDialog.querySelector('p').textContent=button.dataset.zoomLabel;
+const zoomButtons=[...document.querySelectorAll('[data-zoom-src]')];
+const zoomImage=slideDialog.querySelector('img');
+const zoomCaption=slideDialog.querySelector('p');
+const zoomPrevious=slideDialog.querySelector('[data-dialog-prev]');
+const zoomNext=slideDialog.querySelector('[data-dialog-next]');
+let zoomIndex=-1;
+function showZoom(index){
+  if(index<0||index>=zoomButtons.length)return;
+  zoomIndex=index;
+  const button=zoomButtons[index];
+  zoomImage.src=button.dataset.zoomSrc;
+  zoomImage.alt=button.dataset.zoomLabel;
+  zoomCaption.textContent=`${button.dataset.zoomLabel} · ${index+1} / ${zoomButtons.length}`;
+  zoomPrevious.disabled=index===0;
+  zoomNext.disabled=index===zoomButtons.length-1;
+}
+zoomButtons.forEach((button,index)=>button.addEventListener('click',()=>{
+  showZoom(index);
   slideDialog.showModal();
 }));
+zoomPrevious.addEventListener('click',()=>showZoom(zoomIndex-1));
+zoomNext.addEventListener('click',()=>showZoom(zoomIndex+1));
+slideDialog.addEventListener('keydown',e=>{
+  if(e.key==='ArrowLeft'||e.key==='ArrowRight'){
+    e.preventDefault();
+    showZoom(zoomIndex+(e.key==='ArrowLeft'?-1:1));
+  }
+});
 document.querySelectorAll('[data-dialog-close]').forEach(b=>b.addEventListener('click',()=>slideDialog.close()));
 slideDialog.addEventListener('click',e=>{if(e.target===slideDialog)slideDialog.close()});
 

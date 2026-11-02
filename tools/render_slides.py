@@ -6,6 +6,7 @@ the published tree.
 
 from pathlib import Path
 from tempfile import TemporaryDirectory
+import json
 import subprocess
 from PIL import Image
 from pypdf import PdfReader
@@ -17,18 +18,13 @@ POPPLER = Path(r'C:\Users\hsmai\.cache\codex-runtimes\codex-primary-runtime\depe
 if not POPPLER.exists():
     raise SystemExit('Poppler pdftoppm not found; set POPPLER in tools/render_slides.py')
 
-FILES = [
-    ('01', 'Session 1A class.pdf'),
-    ('02', 'Session 1B class.pdf'),
-    ('03', 'Session 2 class.pdf'),
-    ('04', 'Session 4A class.pdf'),
-    ('4B', 'Session 4B.pdf'),
-    ('4C', 'Session 4C.pdf'),
-    ('05', 'Leveraged ETFs.pdf'),
-]
-for lecture, name in FILES:
-    pdf = SOURCE / name
+LECTURES = json.loads((ROOT / 'tools' / 'lectures.json').read_text(encoding='utf-8'))
+for entry in LECTURES:
+    lecture = entry['id']
+    pdf = SOURCE / entry['sourceFile']
     count = len(PdfReader(str(pdf)).pages)
+    if count != entry['count']:
+        raise RuntimeError(f'{pdf.name}: expected {entry["count"]} pages, got {count}')
     target_dir = DEST / lecture
     target_dir.mkdir(parents=True, exist_ok=True)
     if len(list(target_dir.glob('*.webp'))) == count:
