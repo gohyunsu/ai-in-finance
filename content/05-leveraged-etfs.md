@@ -480,3 +480,5 @@ $\mu=0.192$, $\sigma=0.226$이면 $\sigma^2\simeq0.0511$이므로 $L^*\simeq3.76
 [SEC의 ETF 구조 안내](https://www.investor.gov/introduction-investing/general-resources/news-alerts/alerts-bulletins/investor-bulletins-24)는 개인 거래와 AP 설정·환매의 차이를, [SEC의 레버리지 ETF 안내](https://www.investor.gov/introduction-investing/general-resources/news-alerts/alerts-bulletins/investor-alerts/sec)는 일일 목표와 장기 보유의 차이를 정리한다. 국내 제도는 [한국거래소 LP 설명](https://regulation.krx.co.kr/contents/RGL/03/03060103/RGL03060103.jsp)과 [금융위원회의 투자자 안내](https://fsc.go.kr/po010102/86910)에서 확인할 수 있다. 2026년 국내 사례의 관측치는 [자본시장연구원 분석](https://www.kcmi.re.kr/publications/pub_detail_view?cno=6801&syear=2026&zcd=002001016&zno=1922)을 참고한다.
 
 조정 수요를 가격 효과와 연결하려면 상품별 순자산·일간 수익률로 계산한 목표 노출, 설정·환매액, 현물·파생상품 체결액, 종가 주문장 유동성을 같은 날짜와 시간대로 맞춰야 한다. 해외 연구와 국내 사례를 비교할 때도 상품 구성과 헤지 방식의 차이를 반영한다.
+
+예측 신호를 투자에 쓰려면 이처럼 **상품 구조와 거래 과정**을 함께 알아야 한다. 다음 장에서는 기업 특성을 결합해 미래 수익률을 예측하는 여러 함수와, 그 함수를 과거 자료에서 고르는 방법을 다룬다.
