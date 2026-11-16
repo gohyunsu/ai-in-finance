@@ -22,6 +22,18 @@ function parseLecture(meta) {
     if (Number(slide.number) !== i+1) throw new Error(`${meta.file}: slide ${i+1} missing`);
     if (slide.markdown.length < 100) throw new Error(`${meta.file}: slide ${slide.number} is too short`);
   });
+  if (!Array.isArray(meta.parts) || meta.parts.length < 3 || meta.parts.length > 5) {
+    throw new Error(`${meta.file}: expected 3–5 chapter waypoints`);
+  }
+  let previous = 0;
+  for (const {at, title} of meta.parts) {
+    const number = Number(at);
+    if (!/^\d{2}$/.test(at) || number <= previous || number > meta.count || !title?.trim()) {
+      throw new Error(`${meta.file}: invalid chapter waypoint at slide ${at}`);
+    }
+    previous = number;
+  }
+  if (meta.parts[0].at !== '01') throw new Error(`${meta.file}: chapter waypoints must begin at slide 01`);
   return {...meta, intro, slides};
 }
 const chapters = lectures.map(parseLecture);
@@ -65,7 +77,8 @@ function writeLecture(chapter,index) {
   }).join('');
   const previous=chapters[index-1]; const next=chapters[index+1];
   const pager=`<nav class="chapter-pager" aria-label="이전·다음 장">${previous?`<a href="${previous.slug}.html"><small>이전 장</small><strong>← ${esc(previous.label)} · ${esc(previous.title)}</strong></a>`:'<span></span>'}${next?`<a href="${next.slug}.html"><small>다음 장</small><strong>${esc(next.label)} · ${esc(next.title)} →</strong></a>`:'<span></span>'}</nav>`;
-  const main=`<div class="layout">${sidebar}<main class="lecture-main"><section class="lecture-hero"><div class="eyebrow">${chapter.label} · ${chapter.count}개 슬라이드</div><h1>${esc(chapter.title)}</h1><div class="lecture-intro">${htmlWithMath(chapter.intro)}</div><div class="lecture-start"><a href="#s01">첫 슬라이드로 내려가기 ↓</a><span>슬라이드 01–${chapter.count}</span></div></section>${sections}${pager}<footer class="site-footer">AI 금융경제 · 2026-2</footer></main></div>`;
+  const roadmap=`<nav class="lecture-roadmap" aria-label="주제별 슬라이드 이동"><span class="roadmap-label">주제별 이동</span>${chapter.parts.map(({at,title})=>`<a href="#s${at}"><small>${at}</small>${esc(title)}</a>`).join('')}</nav>`;
+  const main=`<div class="layout">${sidebar}<main class="lecture-main"><section class="lecture-hero"><div class="eyebrow">${chapter.label} · ${chapter.count}개 슬라이드</div><h1>${esc(chapter.title)}</h1><div class="lecture-intro">${htmlWithMath(chapter.intro)}</div>${roadmap}</section>${sections}${pager}<footer class="site-footer">AI 금융경제 · 2026-2</footer></main></div>`;
   fs.writeFileSync(path.join(docs,'lecture',`${chapter.slug}.html`),shell(`${chapter.label} · ${chapter.title}`,main,{prefix:'../',current:chapter.slug}));
 }
 

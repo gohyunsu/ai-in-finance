@@ -5,7 +5,7 @@ const root = path.resolve(import.meta.dirname, '..');
 const chapters = JSON.parse(fs.readFileSync(path.join(root, 'tools', 'lectures.json'), 'utf8'));
 let total = 0;
 let totalQuestions = 0;
-for (const {id, slug, label, file, sourceFile, count: expected, legacy} of chapters) {
+for (const {id, slug, label, file, sourceFile, count: expected, legacy, parts} of chapters) {
   const source = fs.readFileSync(path.join(root, 'content', file), 'utf8');
   if (!source.startsWith(`# ${label} · `)) throw new Error(`${file}: source label does not match ${sourceFile}`);
   const numbers = [...source.matchAll(/^## 슬라이드 (\d{2}) · /gm)].map(m => Number(m[1]));
@@ -34,6 +34,12 @@ for (const {id, slug, label, file, sourceFile, count: expected, legacy} of chapt
     throw new Error(`Missing lecture page: ${slug}`);
   }
   const rendered = fs.readFileSync(lecturePage, 'utf8');
+  const roadmap = rendered.match(/<nav class="lecture-roadmap"[^>]*>(.*?)<\/nav>/)?.[1];
+  const roadmapSlides = [...(roadmap ?? '').matchAll(/href="#s(\d{2})"/g)].map(match => match[1]);
+  if (JSON.stringify(roadmapSlides) !== JSON.stringify(parts.map(part => part.at)) ||
+      roadmapSlides.some(number => !rendered.includes(`id="s${number}"`))) {
+    throw new Error(`Lecture ${label}: chapter waypoint does not lead to its slide`);
+  }
   if ([...rendered.matchAll(/<details>/g)].length !== questionCount) {
     throw new Error(`Lecture ${label}: expected ${questionCount} question boxes`);
   }
