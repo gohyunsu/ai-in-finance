@@ -4,10 +4,4 @@
 /syllabus.pdf
 /.research/
 /node_modules/
-/guide/*.aux
-/guide/*.log
-/guide/*.out
-/guide/*.toc
-/guide/*.synctex.gz
-/guide/*.pdf
 /tmp/

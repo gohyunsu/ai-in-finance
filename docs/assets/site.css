@@ -87,9 +87,6 @@ details p{padding:13px 2px 15px;font-size:14px;color:#3e5361;margin:0!important}
 .hero-actions{display:flex;align-items:center;gap:22px;color:#8b98a5;font-size:13px}
 .primary-button{display:inline-flex;align-items:center;gap:28px;padding:13px 19px;background:var(--ink);border-radius:8px;color:white;font-weight:700;font-size:14px}
 .primary-button:hover{color:white;background:#2b496a;text-decoration:none}
-.pdf-link{display:inline-flex;align-items:center;padding:8px 12px;border:1px solid var(--line);border-radius:7px;color:#344c63;font-size:13px;font-weight:700;white-space:nowrap}
-.pdf-link:hover{background:#edf3f5;text-decoration:none}
-.hero-actions .pdf-link{padding:12px 16px}
 .hero-formula{margin-top:54px;color:#386d80;font-size:20px;width:max-content;border-top:1px solid #b9cdd0;padding-top:16px}
 .learning-path{padding:55px 0 90px;border-top:1px solid var(--line)}
 .learning-path h2,.home-note h2{font-size:29px;letter-spacing:-.04em;margin:9px 0 22px}

@@ -67,14 +67,11 @@ function walk(dir) {
     return d.isDirectory() ? walk(entry) : [entry];
   });
 }
-const guidePdf = path.join(publicRoot, 'study-guide.pdf');
-if (!fs.existsSync(guidePdf) || fs.statSync(guidePdf).size < 50000 ||
-    fs.readFileSync(guidePdf).subarray(0, 5).toString() !== '%PDF-') {
-  throw new Error('Missing or invalid study-guide.pdf');
-}
-const forbidden = walk(publicRoot).filter(p => p !== guidePdf && /\.(pdf|txt|tex|jpg|jpeg|png)$/i.test(p));
+const forbidden = walk(publicRoot).filter(p => /\.(pdf|txt|tex|jpg|jpeg|png)$/i.test(p));
 if (forbidden.length) throw new Error(`Unexpected source-like files in docs/: ${forbidden.join(', ')}`);
-if (!fs.existsSync(path.join(root, 'guide', 'main.tex'))) throw new Error('Missing guide/main.tex');
+for (const page of [indexPage, ...chapters.map(({slug}) => fs.readFileSync(path.join(publicRoot, 'lecture', `${slug}.html`), 'utf8'))]) {
+  if (/study-guide\.pdf|PDF (?:가이드|내려받기)/.test(page)) throw new Error('Obsolete PDF download link in site');
+}
 
 // The plotted total must equal bias² + variance + noise at every complexity.
 // SVG y coordinates run downward from the horizontal zero axis.
