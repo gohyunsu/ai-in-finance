@@ -23,8 +23,14 @@ for (const {id, slug, label, file, sourceFile, count: expected, legacy, parts} o
     }
     questionCount += details.length;
   });
+  const imageDir = path.join(root, 'docs', 'assets', 'slides', id);
+  const expectedImages = wanted.map(page => `${String(page).padStart(2, '0')}.webp`);
+  const actualImages = fs.readdirSync(imageDir).filter(name => name.endsWith('.webp')).sort();
+  if (JSON.stringify(actualImages) !== JSON.stringify(expectedImages)) {
+    throw new Error(`${label}: slide image sequence does not match ${expected} pages`);
+  }
   for (const page of wanted) {
-    const target = path.join(root, 'docs', 'assets', 'slides', id, `${String(page).padStart(2, '0')}.webp`);
+    const target = path.join(imageDir, `${String(page).padStart(2, '0')}.webp`);
     if (!fs.existsSync(target) || fs.statSync(target).size < 1000) {
       throw new Error(`Missing or empty slide image: ${target}`);
     }

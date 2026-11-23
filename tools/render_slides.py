@@ -6,6 +6,7 @@ the published tree.
 
 from pathlib import Path
 from tempfile import TemporaryDirectory
+import argparse
 import json
 import subprocess
 from PIL import Image
@@ -19,7 +20,15 @@ if not POPPLER.exists():
     raise SystemExit('Poppler pdftoppm not found; set POPPLER in tools/render_slides.py')
 
 LECTURES = json.loads((ROOT / 'tools' / 'lectures.json').read_text(encoding='utf-8'))
+parser = argparse.ArgumentParser(description='Render local lecture slides as site WebP assets')
+parser.add_argument('--only', help='Lecture slug to render, such as session-5')
+parser.add_argument('--force', action='store_true', help='Refresh images when a source changes without changing page count')
+args = parser.parse_args()
+if args.only and args.only not in {entry['slug'] for entry in LECTURES}:
+    parser.error(f'Unknown lecture slug: {args.only}')
 for entry in LECTURES:
+    if args.only and entry['slug'] != args.only:
+        continue
     lecture = entry['id']
     pdf = SOURCE / entry['sourceFile']
     count = len(PdfReader(str(pdf)).pages)
@@ -27,7 +36,7 @@ for entry in LECTURES:
         raise RuntimeError(f'{pdf.name}: expected {entry["count"]} pages, got {count}')
     target_dir = DEST / lecture
     target_dir.mkdir(parents=True, exist_ok=True)
-    if len(list(target_dir.glob('*.webp'))) == count:
+    if len(list(target_dir.glob('*.webp'))) == count and not args.force:
         print(f'{lecture}: {count} slide images already present')
         continue
     scratch = ROOT / 'tmp'
